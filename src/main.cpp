@@ -228,7 +228,7 @@ public:
 };
 
 int main() {
-  Pomodoro timer(120, 20);
+  Pomodoro timer(25, 5, 15);
   timer.start();
   return 0;
 }
