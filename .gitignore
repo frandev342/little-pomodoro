@@ -1,0 +1,7 @@
+# Binarios compilados
+pomodoro
+test
+*.o
+
+# Archivos de backup
+*~
