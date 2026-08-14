@@ -2,6 +2,7 @@
 pomodoro
 test
 *.o
+tasks.json
 
 # Archivos de backup
 *~
