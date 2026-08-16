@@ -8,6 +8,9 @@ private:
   int breakMinutes;
   int longBreakMinutes;
   Task *task_ = nullptr;
+  int sessionSeconds = 0;
+  int pomodoroCount = 0;
+
   // Activar el RawMode
   void enableRawMode();
   // Desactivar el rawMode

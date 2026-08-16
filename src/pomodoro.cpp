@@ -32,7 +32,7 @@ termios originalTermios;
 // Manejador global: el manejador de señal activa
 volatile sig_atomic_t running = 1;
 
-// Manjeador de señal, solo ponel a bandera
+// Manjeador de señal, solo pone a bandera
 void onSignal(int) { running = 0; }
 
 // Constructor pomodor (asignar tiempo de trabajo, descanso y descanso largo)
@@ -46,8 +46,6 @@ void Pomodoro::setTask(Task *t) { task_ = t; }
 // Configuración del pomodoro y comienzo
 void Pomodoro::start() {
   // Restaurar terminal en caso de salidas forzosas
-  // signal(SIGINT, restoreTerminal);
-  // signal(SIGTERM, restoreTerminal);
   signal(SIGINT, onSignal);
   signal(SIGTERM, onSignal);
 
@@ -58,6 +56,7 @@ void Pomodoro::start() {
 
   // CICLOS DEL POMODORO
   while (running) {
+    pomodoroCount = cycles + 1;
     notifyTimer("POMODORO", "Time to work");
     runTimer(workMinutes, "WORK");
     if (!running) {
@@ -98,8 +97,6 @@ bool Pomodoro::keyAvailable() const {
   pollfd pfd{STDIN_FILENO, POLLIN, 0};
   return poll(&pfd, 1, 0) == 1; // retornar 1 si hay datos, 0 si no hay
 }
-
-// Retornar el caracter encontrado en el buffer
 char Pomodoro::readKey() const {
   char c;
   if (read(STDIN_FILENO, &c, 1) > 0)
@@ -175,22 +172,21 @@ void Pomodoro::printTime(int totalSeconds, const std::string &status,
   std::cout << "\033[1m\033[" << labelRow << ";" << labelColumn << "H"
             << "\033[2K" << color << "<" << statusText << ">\033[0m";
 
-  // Mostrar tarea en pantalla y tiempo
+  // Mostrar tarea en pantalla y tiempo de session
+  int taskNameCol = 2;
   if (task_ != nullptr) {
-    int taskNameCol = 2;
-
-    int taskH = task_->seconds / 3600;
-    int taskM = (task_->seconds % 3600) / 60;
-    int taskS = (task_->seconds % 3600) % 60;
-    std::string taskTime = "Time spent: ";
-    int taskTimeCol = termCols - 8 - taskTime.size();
     std::cout << "\033[" << termRows << ";" << taskNameCol << "H"
               << "\033[2K" << task_->name;
-    std::cout << "\033[" << termRows << ";" << taskTimeCol << "H" << taskTime
-              << std::setfill('0') << std::setw(2) << taskH << ":"
-              << std::setw(2) << taskM << ":" << std::setw(2) << taskS
-              << std::setfill(' ');
   }
+  int taskH = sessionSeconds / 3600;
+  int taskM = (sessionSeconds % 3600) / 60;
+  int taskS = (sessionSeconds % 3600) % 60;
+  std::string taskTime = "[Pomodoro " + std::to_string(pomodoroCount) + "] ";
+  int taskTimeCol = termCols - 8 - taskTime.size();
+
+  std::cout << "\033[" << termRows << ";" << taskTimeCol << "H" << taskTime
+            << std::setfill('0') << std::setw(2) << taskH << ":" << std::setw(2)
+            << taskM << ":" << std::setw(2) << taskS << std::setfill(' ');
 
   // Sugerencias disponibles
   std::string hint =
@@ -245,8 +241,10 @@ void Pomodoro::runTimer(int minutes, const std::string &status) {
         ticks = 0;
         totalSeconds--;
         // Actualizar tiemp mostrado, si es que se indico un trabajo
-        if (task_ != nullptr && status == "WORK") {
-          task_->seconds++;
+        if (status == "WORK") {
+          sessionSeconds++;
+          if (task_ != nullptr)
+            task_->seconds++;
         }
       }
     }
