@@ -68,7 +68,7 @@ int main(int argc, char *argv[]) {
   }
   // Dispatch
   if (showHelp) {
-    std::cout << "Usage: pomodoro [OPTION]...\n\n";
+    std::cout << "Usage: lit-pomodoro [OPTION]...\n\n";
     std::cout << "Terminal Pomodoro timer with task tracking.\n\n";
     std::cout << "Options:\n";
     std::cout << "  -w, --work N         Work minutes (default: 25)\n";
@@ -81,13 +81,17 @@ int main(int argc, char *argv[]) {
     std::cout << "  -d, --delete NAME    Delete a task\n";
     std::cout << "  -h, --help           Show this help\n\n";
     std::cout << "Examples:\n";
-    std::cout << "  pomodoro                         Free pomodoro (25/5/15)\n";
-    std::cout << "  pomodoro --work 50               Free pomodoro with 50 min "
-                 "of work\n";
-    std::cout << "  pomodoro -t \"Study English\"      Pomodoro tracking time "
-                 "on a task\n";
-    std::cout << "  pomodoro --show                  View time accumulated per "
-                 "task\n";
+    std::cout
+        << "  lit-pomodoro                         Free pomodoro (25/5/15)\n";
+    std::cout
+        << "  lit-pomodoro --work 50               Free pomodoro with 50 min "
+           "of work\n";
+    std::cout
+        << "  lit-pomodoro -t \"Study English\"      Pomodoro tracking time "
+           "on a task\n";
+    std::cout
+        << "  lit-pomodoro --show                  View time accumulated per "
+           "task\n";
     return 0;
 
   } else {

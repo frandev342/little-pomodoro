@@ -26,7 +26,7 @@ escritorio.
 ## Compilar y ejecutar
 
 ```bash
-make          # compila → genera el binario pomodoro
+make          # compila → genera el binario lit-pomodoro
 make run      # compila y ejecuta
 make clean    # borra el binario
 ```
@@ -34,8 +34,8 @@ make clean    # borra el binario
 O manualmente:
 
 ```bash
-g++ -std=c++17 -Wall -Wextra -o pomodoro src/main.cpp src/tasks.cpp src/pomodoro.cpp
-./pomodoro
+g++ -std=c++17 -Wall -Wextra -o lit-pomodoro src/main.cpp src/tasks.cpp src/pomodoro.cpp
+./lit-pomodoro
 ```
 
 ## Uso
@@ -45,13 +45,13 @@ g++ -std=c++17 -Wall -Wextra -o pomodoro src/main.cpp src/tasks.cpp src/pomodoro
 Sin argumentos corre un pomodoro libre con los tiempos por defecto (25/5/15):
 
 ```bash
-./pomodoro
+./lit-pomodoro
 ```
 
 Con una tarea, acumula el tiempo de trabajo en ella:
 
 ```bash
-./pomodoro -t "Study English"
+./lit-pomodoro -t "Study English"
 ```
 
 | Tecla | Acción |
@@ -64,14 +64,14 @@ Con una tarea, acumula el tiempo de trabajo en ella:
 
 | Comando | Acción |
 |---------|--------|
-| `./pomodoro -c "Task"` | Crear una tarea |
-| `./pomodoro -d "Task"` | Eliminar una tarea |
-| `./pomodoro -s` / `--show` | Mostrar el tiempo acumulado por tarea |
-| `./pomodoro -t "Task"` | Trabajar en una tarea (la crea si no existe) |
-| `./pomodoro -w 50` | Pomodoro libre con 50 min de trabajo |
-| `./pomodoro -b 10` | Descanso de 10 min |
-| `./pomodoro -l 20` | Descanso largo de 20 min |
-| `./pomodoro -h` / `--help` | Mostrar la ayuda completa |
+| `./lit-pomodoro -c "Task"` | Crear una tarea |
+| `./lit-pomodoro -d "Task"` | Eliminar una tarea |
+| `./lit-pomodoro -s` / `--show` | Mostrar el tiempo acumulado por tarea |
+| `./lit-pomodoro -t "Task"` | Trabajar en una tarea (la crea si no existe) |
+| `./lit-pomodoro -w 50` | Pomodoro libre con 50 min de trabajo |
+| `./lit-pomodoro -b 10` | Descanso de 10 min |
+| `./lit-pomodoro -l 20` | Descanso largo de 20 min |
+| `./lit-pomodoro -h` / `--help` | Mostrar la ayuda completa |
 
 ## Persistencia
 
