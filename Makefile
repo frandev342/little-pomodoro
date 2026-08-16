@@ -1,7 +1,8 @@
 CXX = g++
 FLAGS = -std=c++17 -Wall -Wextra
-pomodoro: src/main.cpp
-	$(CXX) $(FLAGS) -o pomodoro src/main.cpp
+SRC = src/main.cpp src/tasks.cpp src/pomodoro.cpp
+pomodoro: $(SRC)
+	$(CXX) $(FLAGS) -o pomodoro $(SRC)
 
 run: pomodoro
 	./pomodoro
