@@ -1,11 +1,20 @@
 #include "tasks.h"
-
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <nlohmann/json.hpp>
+#include <sys/stat.h>
 
 // facilitar uso de la librería
 using json = nlohmann::json;
+
+// Ruta fija del archivo de datos (~/.local/share/lit-pomodoro/tasks.json)
+std::string tasksPath() {
+  const char *home = getenv("HOME");
+  std::string dir = std::string(home) + "/.local/share/lit-pomodoro";
+  std::string path = dir + "/tasks.json";
+  return path;
+}
 
 // FUncinoes auxiliares para la conversión de json a struct y viceversa
 void to_json(json &j, const Task &t) {
@@ -19,7 +28,7 @@ void from_json(const json &j, Task &t) {
 
 // Cargar json a un vector de estructuras
 std::vector<Task> loadTasks() {
-  std::ifstream f("tasks.json");
+  std::ifstream f(tasksPath());
   std::vector<Task> tasks;
   if (f.is_open()) {
     json data;
@@ -31,9 +40,14 @@ std::vector<Task> loadTasks() {
 
 // Guardar struct en un json
 void saveTasks(const std::vector<Task> &tasks) {
+  std::string path = tasksPath();
+  std::string dir = path.substr(0, path.find_last_of('/'));
+  mkdir(dir.c_str(), 0755);
+
+  // Crear json y guardarlo
   json data;
   data["tasks"] = tasks;
-  std::ofstream f("tasks.json");
+  std::ofstream f(path);
   f << data.dump(2);
 }
 // Añadir una tarea a tasks
