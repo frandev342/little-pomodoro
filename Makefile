@@ -8,8 +8,9 @@ lit-pomodoro: $(SRC)
 run: $(BIN)
 	./$(BIN)
 
+PREFIX ?= /usr/local
 install: $(BIN)
-	sudo cp $(BIN) /usr/local/bin/$(BIN)
+	install -Dm755 $(BIN) $(DESTDIR)$(PREFIX)/bin/$(BIN)
 
 clean:
 	rm -f lit-pomodoro
